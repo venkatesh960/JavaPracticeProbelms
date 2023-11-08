@@ -2,14 +2,10 @@
 import java.util.Scanner;
 class CustomerInfo
 {
-   public String accountHolderName;
-   public int accountNumber;
-   public int amount;
-public CustomerInfo(String accountHolderName, int accountNumber, int amount) {
-    this.accountHolderName = accountHolderName;
-    this.accountNumber = accountNumber;
-    this.amount = amount;
-}
+   public String accountHolderName="Scott";
+   public int accountNumber=123;
+   public int balance=1000;
+
 public void customerInfo()
 {
     System.out.println("Account HolderName :"+accountHolderName);
@@ -17,73 +13,89 @@ public void customerInfo()
 }
  public void withdrawInfo(int withdrawAmount)
  {
-    if (withdrawAmount<=amount) {
-    int balance=amount-withdrawAmount;
-    System.out.println("Withdra Succesfull:");
-    System.out.println("Balance Amount:"+balance);   
+    if (withdrawAmount<balance) {
+    balance=balance-withdrawAmount;
+    System.out.println("Withdra Succesfull:");  
     }
     else{
-        System.out.println("Insufficient Funds ");
+    System.out.println("Insufficient Funds ");
     }
  } 
- public void balanceInfo()
+ public void deposite(int amount)
  {
-    System.out.println("Balance Info:"+amount);
+    balance=balance+amount;
  }
- public void message()
+ public void showBlance()
  {
-    System.out.println("Account Succcessfull Created ");
- } 
+    System.out.println("Balance is :"+balance);
+ }
 
 }
 class Bank
 {
     public static void main(String[] args) {
 
-        CustomerInfo c1=new CustomerInfo("Scott", 101, 5000);
-        //CustomerInfo c2=new CustomerInfo("David", 102, 2000);
-
         Scanner sc=new Scanner(System.in);
-        System.out.println("Enter Account Number");
-        int ac=sc.nextInt();
-        if (ac==c1.accountNumber) {
-            System.out.println("Enter\n1.To Check Balance\n2.To Withdraw");
+        CustomerInfo c1=new CustomerInfo();
+        boolean status=true;
+        while (status) {
+            System.out.println("*************");
+            System.out.println("Welcome To Bank ");
+            System.out.println("Please Enter\n1.Deposite\n2.Withdraw\n3.ShowBlance\n4.Exit");
             int choice =sc.nextInt();
             switch (choice) {
                 case 1:
-                    c1.balanceInfo();
-                    break;
+                {
+                    System.out.println("Enter UserName");
+                    String name=sc.next();
+                    if (name.equals(c1.accountHolderName)) {
+                        System.out.println("***Valid UserName***");
+
+                        System.out.println("Enter AccountNumber");
+                        int acNumber=sc.nextInt();
+
+                        if (c1.accountNumber==acNumber) {
+                            System.out.println("***Valid AccountNumber***");
+
+                            System.out.println("Enter Amount To Deposit");
+                            int amount=sc.nextInt();
+                            c1.deposite(amount);
+                            System.out.println("Deposite Succesful ");
+                            
+                        }
+                        else{
+                            System.out.println("Invalid AccountNumber");
+                        }
+                    }
+                    else{
+                        System.out.println("Invalid UserName");
+                    }
+                }
+                break;
                 case 2:
-                    System.out.print("Enter Amount:");
+                {
+                    System.out.println("Enter Amount To Withdraw");
                     int withdrawAmount=sc.nextInt();
                     c1.withdrawInfo(withdrawAmount);
+                }
+                break;
+                case 3:
+                {
+                    c1.showBlance();
+                }
+                break;
+                case 4:
+                {
+                    System.out.println("Thanking You Visit Again");
+                    status=false;
                     break;
+                }
                 default:
-                    System.out.println("Enter Valid Option:");
-                    break;
+                {
+                 System.out.println("Enter Valid Option:");
+                }
+                break;
             }   
         }
-        else{
-            System.out.println("Account Not Found");
-            System.out.println("Enter\n1.Create Account\n2.Exit");
-            int choice=sc.nextInt();
-            switch (choice) {
-                case 1:
-                   System.out.println("Enter your name");
-                   String name=sc.next();
-                   System.out.println("Enter Minimum Amount To Deposit");
-                   int minAmount=sc.nextInt();
-                   CustomerInfo c2=new CustomerInfo(name, 102, minAmount);
-                   c2.message();
-                   c2.customerInfo();
-                    break;
-                case 2:
-                break;
-                default:
-                    System.out.println("Enter Valid Option");
-                    break;
-            }
-        }
-        sc.close();
     }
 }

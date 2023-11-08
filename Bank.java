@@ -92,6 +92,7 @@ class Bank
                 }
                 default:
                 {
+                    sc.close();
                  System.out.println("Enter Valid Option:");
                 }
                 break;
